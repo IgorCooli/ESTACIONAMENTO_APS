@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author coliv
  */
-class Movimentacao {
+public class Movimentacao {
     private Date dataEntrada;
     private Date dataSaida;
 

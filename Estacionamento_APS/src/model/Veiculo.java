@@ -11,7 +11,7 @@ import java.util.Objects;
  *
  * @author coliv
  */
-class Veiculo {
+public class Veiculo {
     
     private String placa;
     private String modelo;
