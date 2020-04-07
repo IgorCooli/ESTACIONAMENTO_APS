@@ -15,8 +15,8 @@ import view.ClienteView;
  */
 public class ClienteController {
     
-    private Cliente model;
-    private ClienteView view;
+    private Cliente model = new Cliente();
+    private ClienteView view = new ClienteView();
 
     public ClienteController(Cliente model, ClienteView view) {
         this.model = model;
@@ -70,6 +70,8 @@ public class ClienteController {
         this.view = view;
     }
     
-    
+    public void atualizaView(){
+        view.printCliente(model.getNome(), model.getEndereco(), model.getTelefone());
+    }
     
 }

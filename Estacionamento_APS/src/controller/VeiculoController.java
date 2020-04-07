@@ -17,8 +17,8 @@ import view.VeiculoView;
  */
 public class VeiculoController {
     
-    private Veiculo model;
-    private VeiculoView view;
+    private Veiculo model = new Veiculo();
+    private VeiculoView view = new VeiculoView();
 
     public VeiculoController(Veiculo model, VeiculoView view) {
         this.model = model;
@@ -77,6 +77,8 @@ public class VeiculoController {
         this.view = view;
     }
     
-    
+    public void atualizaView(){
+        view.printVeiculo(model.getPlaca(), model.getModelo(), model.getCor());
+    }
     
 }

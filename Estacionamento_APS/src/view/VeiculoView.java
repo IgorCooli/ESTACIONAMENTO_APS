@@ -5,24 +5,32 @@
  */
 package view;
 
-import controller.VeiculoController;
-import java.util.Scanner;
-
 /**
  *
  * @author coliv
  */
 public class VeiculoView {
-    Scanner tc = new Scanner(System.in);
     
-    public void cadastraVeiculo(VeiculoController v){
-        System.out.println("Entre com os dados do veículo: ");
+    public void printVeiculo(String placa, String modelo, String cor){
+	      System.out.println("Placa: " + placa);
+	      System.out.println("Modelo: " + modelo);
+	      System.out.println("Cor: " + cor);
+    }
+    
+    public void cadastrarVeiculo(){
+        System.out.println("Cadastrar veículo: ");
+    }
+    
+    public void inputPlaca(){
         System.out.println("Digite a placa: ");
-        v.setPlaca(tc.next());
-        System.out.println("Digite o modelo: ");
-        v.setModelo(tc.next());
-        System.out.println("Digite a cor: ");
-        v.setCor(tc.next());
+    }
+    
+    public void inputModelo(){
+        System.out.println("Digite o modelo do veículo: ");
+    }
+    
+    public void inputCor(){
+        System.out.println("Digite a cor do veículo: ");
     }
     
 }

@@ -15,30 +15,28 @@ import java.util.Scanner;
  */
 public class ClienteView {
     
-    /*
-    public void cadastraCliente(ClienteController c, VeiculoController v){
-        Scanner tc = new Scanner(System.in);
-        
-        System.out.println("Entre com os dados do cliente: ");
-        System.out.println("Digite o nome: ");
-        c.setNome(tc.next());
-        System.out.println("Endereço do cliente: ");
-        c.setEndereco(tc.next());
-        System.out.println("Telefone de contato: ");
-        c.setTelefone(tc.next());
-        c.setVeiculo(v.getModel());
+    public void printCliente(String nome, String endereco, String telefone){
+	      System.out.println("Nome: " + nome);
+	      System.out.println("Endereco: " + endereco);
+	      System.out.println("Telefone: " + telefone);
     }
-    */
     
-    public void exibeNomeCliente(){
+    public void cadastrarCliente(){
+        System.out.println("Cadastrar cliente: ");
+    }
+    
+    public void inputNome(){
         System.out.println("Nome Cliente: ");
     }     
     
-     public void exibeEnderecoCliente(){
+     public void inputEndereco(){
         System.out.println("Endereco Cliente: ");
     }  
      
-    public void exibeTelefoneCliente(){
+    public void inputTelefone(){
         System.out.println("Telefone Cliente: ");
     }
+    
+    
+    
 }
