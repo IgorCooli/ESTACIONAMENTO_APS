@@ -17,6 +17,8 @@ public class PagamentoView {
     public void printPagamento(Cliente cliente, double valor, Date dataPagamento) {
         System.out.println("Pagamento: ");
         System.out.println("Cliente: " + cliente.getNome() + " - Veículo: " + cliente.getVeiculo().getPlaca());
-        System.out.println("Hora: " + dataPagamento.getHours() + " - Valor: R$" + valor);
+        System.out.println("Hora entrada: " + dataPagamento.getHours());
+        System.out.println("Hora saida: " + cliente.getVeiculo().getMovimentacao().getDataSaida());
+        System.out.println("Valor: R$" + valor);
     }
 }
