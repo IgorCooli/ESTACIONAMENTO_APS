@@ -9,13 +9,14 @@ package model;
  *
  * @author coliv
  */
-class Vaga {
+public class Vaga {
     
     private int numero;
     private boolean disponivel;
     private Veiculo veiculo;
 
     public Vaga() {
+        this.disponivel = true;
     }
 
     public Vaga(int numero, boolean disponivel, Veiculo veiculo) {
