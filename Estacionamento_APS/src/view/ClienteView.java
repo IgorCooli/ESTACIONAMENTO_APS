@@ -15,7 +15,7 @@ import java.util.Scanner;
  */
 public class ClienteView {
     
-    
+    /*
     public void cadastraCliente(ClienteController c, VeiculoController v){
         Scanner tc = new Scanner(System.in);
         
@@ -28,5 +28,17 @@ public class ClienteView {
         c.setTelefone(tc.next());
         c.setVeiculo(v.getModel());
     }
+    */
     
+    public void exibeNomeCliente(){
+        System.out.println("Nome Cliente: ");
+    }     
+    
+     public void exibeEnderecoCliente(){
+        System.out.println("Endereco Cliente: ");
+    }  
+     
+    public void exibeTelefoneCliente(){
+        System.out.println("Telefone Cliente: ");
+    }
 }
