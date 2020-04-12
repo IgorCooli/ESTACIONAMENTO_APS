@@ -40,4 +40,24 @@ public class EstacionamentoView {
         System.out.println("Valor total do dia: R$" + fechamentoCaixa);
     }
     
+    public void printMenuEstacionamento(){
+         System.out.println("MENU ESTACIONAMENTO: ");
+         System.out.println("1) Entrada de veículo"); // FEITO
+         System.out.println("2) Listar Veiculos");    // FEITO   
+         System.out.println("3) Saída de veículo");
+         System.out.println("4) Fechamento de caixa");
+         System.out.println("5) Sair");
+         System.out.println("6) Histórico(LOG)");
+         System.out.println();
+         
+         System.out.println("Opção Escolhida: ");
+    }
+    
+    public void falhaCadastro(){
+        System.out.println("Cadastro não efetuado, favor realizar o procedimento novamente.");
+    }
+    
+    public void saidaVeiculo(){
+        System.out.println("Digite a placa do carro que está de saída: ");
+    }
 }

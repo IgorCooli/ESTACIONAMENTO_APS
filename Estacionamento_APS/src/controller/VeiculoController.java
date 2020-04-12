@@ -19,10 +19,12 @@ public class VeiculoController {
     
     private Veiculo model = new Veiculo();
     private VeiculoView view = new VeiculoView();
+    
 
     public VeiculoController(Veiculo model, VeiculoView view) {
         this.model = model;
         this.view = view;
+        
     }
     
     public VeiculoController() {

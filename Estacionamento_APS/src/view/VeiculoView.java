@@ -33,4 +33,8 @@ public class VeiculoView {
         System.out.println("Digite a cor do veículo: ");
     }
     
+    public void listarVeiculos(){
+        System.out.println("Veiculos Estacionados: ");
+    }
+    
 }

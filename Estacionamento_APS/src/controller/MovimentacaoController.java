@@ -17,6 +17,10 @@ public class MovimentacaoController {
     
     private Movimentacao model = new Movimentacao();
     private MovimentacaoView view = new MovimentacaoView();
+    
+    public MovimentacaoController() {
+       
+    }
 
     public MovimentacaoController(Movimentacao model, MovimentacaoView view) {
         this.model = model;

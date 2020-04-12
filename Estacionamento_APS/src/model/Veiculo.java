@@ -19,6 +19,7 @@ public class Veiculo {
     private Movimentacao movimentacao;
 
     public Veiculo() {
+        movimentacao = new Movimentacao();
     }
 
     public Veiculo(String placa, String modelo, String cor, Movimentacao movimentacao) {
