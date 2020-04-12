@@ -99,7 +99,7 @@ public class Estacionamento_APS {
                         }
                         
                         // Caso a vaga não esteja ocupada é feito o cadastro.
-                        if(controleDisponibilidade == true){
+                        if(controleDisponibilidade = true){
                             vagaCadastro.setNumero(numeroVaga);
                             Boolean disponivel = false;
                             vagaCadastro.setDisponivel(disponivel);
@@ -137,13 +137,15 @@ public class Estacionamento_APS {
                 case 3:
                     // SAÍDA DE VEÍCULOS
                     try {
+                        
+                        
                         ec.getView().saidaVeiculo();
                         String plVeiculoSaida = tc.next();
-                        
+                                                
                         Boolean controleSaidaCarro = false;
                         
-                        for(VeiculoController veiculoSaida : veiculos){
-                            if(plVeiculoSaida.equals(veiculoSaida.getPlaca())){
+                        for(VeiculoController veiculosSaida : veiculos){
+                            if(plVeiculoSaida.equals(veiculosSaida.getPlaca())){
                                 controleSaidaCarro = true;
                                 System.out.println("Veículo encontrado!");
                                 System.out.println();                                
@@ -152,12 +154,12 @@ public class Estacionamento_APS {
                               System.out.println("A placa informada não foi encotrada nos veículos registrados.");  
                         }
                         
-                        if (controleSaidaCarro == true) {                            
+                        if (controleSaidaCarro = true) {                            
                             
                             PagamentoController pagamentoSaidaVeiculo = new PagamentoController();
                             System.out.println("Informe o horário de saída do veículo: ");
                             try {
-                                Date dt = formata.parse(tc.nextLine())
+                                Date dt = formata.parse(tc.nextLine());
                                 
                             } catch (Exception e) {
                             }
