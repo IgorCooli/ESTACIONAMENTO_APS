@@ -12,6 +12,7 @@ import controller.PagamentoController;
 import controller.VagaController;
 import controller.VeiculoController;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -72,11 +73,14 @@ public class Estacionamento_APS {
                         vc.getView().inputCor();
                         vCadastro.setCor(tc.next());
                         tc.nextLine(); 
-                        mc.getView().horarioEntrada();
-                         try {
+                        try {
                              // String horaEntrada = tc.nextLine();
-                              Date dt = formata.parse(tc.nextLine());                              
-                              vCadastro.getMovimentacao().setDataEntrada(dt);                                 
+                              Date dtEntrada = new Date();
+                              formata.format(dtEntrada);
+                              vCadastro.getMovimentacao().setDataEntrada(dtEntrada);      
+                              
+                               mc.getView().horarioEntrada();
+                               System.out.println(vCadastro.getMovimentacao().getDataEntrada());
                         } catch (Exception e) {
                                System.out.println("Horário Invalido");
                                System.out.println("O cadastro não pode ser concluído! Tente Novamente!");                               
@@ -136,11 +140,11 @@ public class Estacionamento_APS {
                     
                 case 3:
                     // SAÍDA DE VEÍCULOS
-                    try {
-                        
+                    try {                        
                         
                         ec.getView().saidaVeiculo();
                         String plVeiculoSaida = tc.next();
+                        VeiculoController veiculoSaida = new VeiculoController();
                                                 
                         Boolean controleSaidaCarro = false;
                         
@@ -157,27 +161,16 @@ public class Estacionamento_APS {
                         if (controleSaidaCarro = true) {                            
                             
                             PagamentoController pagamentoSaidaVeiculo = new PagamentoController();
-                            System.out.println("Informe o horário de saída do veículo: ");
-                            try {
-                                Date dt = formata.parse(tc.nextLine());
-                                
-                            } catch (Exception e) {
-                            }
+                            Date saida = new Date();
+                            formata.format(saida);
+                            System.out.println("Horário de saída do veículo: " + saida);                            
+                            veiculoSaida.getMovimentacao().setDataSaida(saida);
+                            
+                           // pagamentoSaidaVeiculo.getDateDiff(veiculoSaida.getMovimentacao().getDataEntrada(), veiculoSaida.getMovimentacao().setDataSaida(saida));
+                            
                             
                          
-                            
-                            
-                        /*    
-                        try {
-                             // String horaEntrada = tc.nextLine();
-                              Date dt = formata.parse(tc.nextLine());                              
-                              vCadastro.getMovimentacao().setDataEntrada(dt);                                 
-                        } catch (Exception e) {
-                               System.out.println("Horário Invalido");
-                               System.out.println("O cadastro não pode ser concluído! Tente Novamente!");                               
-                        }
-                        */    
-                            
+                      
                         }
                         
                     } 
