@@ -5,6 +5,7 @@
  */
 package model;
 
+import controller.VeiculoController;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 public class LogSingleton {
     private static LogSingleton instance;
     public String placa;
-    public List<Veiculo> listaVeiculo = new ArrayList<>();
+    public List<VeiculoController> listaVeiculoController = new ArrayList<>();
     
     protected LogSingleton() {
     }
@@ -31,15 +32,15 @@ public class LogSingleton {
         return instance;
     }
     
-    public void setlistaVeiculo(Veiculo v) {
-        listaVeiculo.add(v);
+    public void setlistaVeiculoController(VeiculoController v) {
+        listaVeiculoController.add(v);
     }
     
-    public String getListaVeiculo() {
+    public String getListaVeiculoController() {
         String veiculosEstacionados = "";
         
-        for(int i = 0; i <= listaVeiculo.size() - 1; i++) {
-            veiculosEstacionados = veiculosEstacionados + listaVeiculo.get(i).getModelo() + ": " + listaVeiculo.get(i).getPlaca() + " ";
+        for(int i = 0; i <= listaVeiculoController.size() - 1; i++) {
+            veiculosEstacionados = veiculosEstacionados + listaVeiculoController.get(i).getModelo() + ": " + listaVeiculoController.get(i).getPlaca() + " ";
         }
         return veiculosEstacionados;
     }
