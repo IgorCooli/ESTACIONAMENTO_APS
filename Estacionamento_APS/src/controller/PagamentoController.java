@@ -49,16 +49,8 @@ public class PagamentoController {
         return model.getCliente();
     }
     
-    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
-        long diffInMillies = date2.getTime() - date1.getTime();
-        return timeUnit.convert(diffInMillies,timeUnit);
-    }
-    
-    public void setValor(){
-        Date entrada = model.getCliente().getVeiculo().getMovimentacao().getDataEntrada();
-        Date saida = model.getCliente().getVeiculo().getMovimentacao().getDataSaida();
-        long minutos = getDateDiff(saida,entrada,TimeUnit.MINUTES);
-        double valor = this.valorHora * minutos;
+       
+    public void setValor(double valor){
         model.setValor(valor);
     }
     
@@ -85,6 +77,20 @@ public class PagamentoController {
     
     public void atualizaView(){
         view.printPagamento(model.getCliente(), model.getValor(), model.getDataPagamento());
+    }
+    
+    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        long diffInMili = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMili,timeUnit);
+    }    
+    
+    public double calculaValorPagamento(double difSegundos){
+        
+        double valorCalculado = 0;
+        valorHora = 6;
+        double minutosHora = 60;
+        valorCalculado = (difSegundos/60) * (valorHora/minutosHora);               
+        return valorCalculado;      
     }
     
 }

@@ -26,6 +26,7 @@ public class Cliente {
     }
 
     public Cliente() {
+         veiculo = new Veiculo();
     }
     
     

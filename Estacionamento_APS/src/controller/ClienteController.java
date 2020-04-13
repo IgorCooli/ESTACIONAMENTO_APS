@@ -50,6 +50,10 @@ public class ClienteController {
         return model.getTelefone();
     }
     
+    public Veiculo getVeiculo(){
+        return model.getVeiculo();
+    }
+    
     public void setVeiculo(Veiculo v){
         model.setVeiculo(v);
     }
