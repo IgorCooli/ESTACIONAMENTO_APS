@@ -121,13 +121,17 @@ public class Estacionamento_APS {
                         
                         // Caso a vaga não esteja ocupada é feito o cadastro.
                         if(controleDisponibilidade = true){
-                            vagaCadastro.setNumero(numeroVaga);
                             Boolean disponivel = false;
+                            
+                            vagaCadastro.setVeiculo(vCadastro.getModel());
+                            vagaCadastro.setNumero(numeroVaga);                            
                             vagaCadastro.setDisponivel(disponivel);
                             vagasOcupadas.add(vagaCadastro);
-                            capacidade = capacidade - 1;
+                                                        
                             veiculos.add(vCadastro);
                             clientes.add(clienteCadastro);
+                            
+                            capacidade = capacidade - 1;
                         }
                         else
                             ec.getView().falhaCadastro();
@@ -166,6 +170,7 @@ public class Estacionamento_APS {
                         VeiculoController veiculoSaida = new VeiculoController();
                         PagamentoController pagamentoSaidaVeiculo = new PagamentoController();
                         ClienteController clienteSaida = new ClienteController();
+                        VagaController vaga = new VagaController();
                         
                         // VARIÁVEL PARA ARMAZENAR A DATA DE ENTRADA DO VEÍCULO QUE ESTÁ SAINDO.
                         // NÃO ENCONTREI OUTRA FORMA DE FAZER ISTO.
@@ -209,9 +214,14 @@ public class Estacionamento_APS {
                             
                             veiculoSaida.setModel(pagamentoSaidaVeiculo.getCliente().getVeiculo()); 
                             
+                            
                             for(VeiculoController veiculo : veiculos){
                                 if(veiculo.getPlaca() == veiculoSaida.getPlaca()){
-                                    veiculos.remove(veiculo);
+                                   veiculos.remove(veiculo);
+                                   vaga.setVeiculo(veiculo.getModel());
+                                   vagasOcupadas.remove(vaga);
+                                    System.out.println(vagasOcupadas);
+                                    
                                 }
                             }
                             
