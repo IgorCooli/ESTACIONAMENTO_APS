@@ -87,7 +87,6 @@ public class PagamentoController {
     public double calculaValorPagamento(double difSegundos){
         
         double valorCalculado = 0;
-        valorHora = 6;
         double minutosHora = 60;
         valorCalculado = (difSegundos/60) * (valorHora/minutosHora);               
         return valorCalculado;      

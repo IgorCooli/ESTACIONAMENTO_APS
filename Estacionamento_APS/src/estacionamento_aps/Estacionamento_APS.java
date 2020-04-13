@@ -173,11 +173,11 @@ public class Estacionamento_APS {
                                                 
                         Boolean controleSaidaCarro = false;
                         
-                        for(VeiculoController veiculosSaida : veiculos){
-                            if(plVeiculoSaida.equals(veiculosSaida.getPlaca())){
+                        for(ClienteController cliente : clientes){
+                            if(plVeiculoSaida.equals(cliente.getVeiculo().getPlaca())){
                                  controleSaidaCarro = true;
-                                 dataEntrada = veiculosSaida.getMovimentacao().getDataEntrada();
-                                 clienteSaida.setVeiculo(veiculosSaida.getModel()); // ?????
+                                 dataEntrada = cliente.getVeiculo().getMovimentacao().getDataEntrada();
+                                 clienteSaida.setModel(cliente.getModel()); 
                                 System.out.println("Veículo encontrado!");
                                 System.out.println();                                
                             }
@@ -190,33 +190,40 @@ public class Estacionamento_APS {
                             Date saida = new Date();
                             formata.format(saida);  
                             // Setando a hora de saída do cliente
-                            veiculoSaida.getMovimentacao().setDataSaida(saida);                            
-                            System.out.println(formata.format(veiculoSaida.getMovimentacao().getDataSaida()));
+                            clienteSaida.getVeiculo().getMovimentacao().setDataSaida(saida);
+                            pagamentoSaidaVeiculo.setData(saida);
+                            
+                            System.out.println(formata.format(clienteSaida.getVeiculo().getMovimentacao().getDataSaida()));
                             
                             pagamentoSaidaVeiculo.setCliente(clienteSaida.getModel());
                             
                             //TRANSFORMAR OS MILISEGUNDOS EM SEGUNDOS
-                            double diffSeconds = (pagamentoSaidaVeiculo.getDateDiff(dataEntrada,veiculoSaida.getMovimentacao().getDataSaida(), TimeUnit.SECONDS)/1000);                            
+                            double diffSeconds = (pagamentoSaidaVeiculo.getDateDiff(dataEntrada,clienteSaida.getVeiculo().getMovimentacao().getDataSaida(), TimeUnit.SECONDS)/1000);                            
+                                                        
+                            // Altera o valor do pagamento e Cálculo de Pagamento.
+                            pagamentoSaidaVeiculo.setValor(pagamentoSaidaVeiculo.calculaValorPagamento(diffSeconds));
                             
-                            // Cálculo de Pagamento
-                            pagamentoSaidaVeiculo.calculaValorPagamento(diffSeconds);                            
-                            System.out.println(pagamentoSaidaVeiculo.calculaValorPagamento(diffSeconds));                           
+                            pagamentoSaidaVeiculo.getView().printPagamento(pagamentoSaidaVeiculo.getCliente(), pagamentoSaidaVeiculo.getValor(), pagamentoSaidaVeiculo.getCliente().getVeiculo().getMovimentacao().getDataEntrada());
                             
-                            // Altera o valor do pagamento.
-                            pagamentoSaidaVeiculo.setValor(diffSeconds);
-
-                            System.out.println(pagamentoSaidaVeiculo.getCliente().getNome());
-                            System.out.println(pagamentoSaidaVeiculo.getCliente().getVeiculo().getPlaca());
-                            System.out.println(pagamentoSaidaVeiculo.getCliente().getVeiculo().getMovimentacao().getDataEntrada());
-
-
+                            ec.addPagamento(pagamentoSaidaVeiculo.getModel());
+                            
+                            veiculoSaida.setModel(pagamentoSaidaVeiculo.getCliente().getVeiculo()); 
+                            
+                            for(VeiculoController veiculo : veiculos){
+                                if(veiculo.getPlaca() == veiculoSaida.getPlaca()){
+                                    veiculos.remove(veiculo);
+                                }
+                            }
+                            
+                           // veiculos.remove(veiculos.indexOf(veiculoSaida));
+                            System.out.println(veiculos);
                         }
                         
                     } 
                     catch (Exception e) {
                         
                     }
-                    
+                    break;
                 case 4:
                     
                     
