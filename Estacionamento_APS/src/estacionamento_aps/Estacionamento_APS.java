@@ -40,9 +40,12 @@ public class Estacionamento_APS {
         ArrayList<VeiculoController> veiculos = new ArrayList<>();
         ArrayList<VagaController> vagasOcupadas = new ArrayList<>();
         ArrayList<PagamentoController> pagamentos = new ArrayList<>();
+        ArrayList<ClienteController> clientes = new ArrayList<>();
         
         // Classe que executa a formatação:
-        SimpleDateFormat formata = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        SimpleDateFormat formata = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        
+        
         
         // Capacidade máxima do estacionamento é 500.
         int capacidade = 500;
@@ -64,6 +67,7 @@ public class Estacionamento_APS {
                 case 1:
                    // ENTRADA DE VEÍCULOS
                    try{
+                        ClienteController clienteCadastro = new ClienteController();
                         VeiculoController vCadastro = new VeiculoController();
                         VagaController vagaCadastro = new VagaController();
                     
@@ -82,13 +86,26 @@ public class Estacionamento_APS {
                               Date dtEntrada = new Date();
                               formata.format(dtEntrada);
                               vCadastro.getMovimentacao().setDataEntrada(dtEntrada);      
-                              
-                               mc.getView().horarioEntrada();
-                               System.out.println(vCadastro.getMovimentacao().getDataEntrada());
+                                mc.getView().horarioEntrada();
+                               System.out.println(formata.format(vCadastro.getMovimentacao().getDataEntrada()));
                         } catch (Exception e) {
                                System.out.println("Horário Invalido");
                                System.out.println("O cadastro não pode ser concluído! Tente Novamente!");                               
                         }
+                        
+                        //Cadastro de Cliente
+                        cc.getView().cadastrarCliente();
+                        cc.getView().inputNome();
+                        clienteCadastro.setNome(tc.next());
+                        tc.nextLine();
+                        cc.getView().inputEndereco();
+                        clienteCadastro.setEndereco(tc.next());
+                        tc.nextLine();
+                        cc.getView().inputTelefone();
+                        clienteCadastro.setTelefone(tc.next());
+                        tc.nextLine();
+                        clienteCadastro.setVeiculo(vCadastro.getModel());
+                        
                         // Entrada de dados para inserir o número da vaga.
                         System.out.println("Numero da vaga estacionada?");
                         int numeroVaga = tc.nextInt();
@@ -113,7 +130,8 @@ public class Estacionamento_APS {
                             vagaCadastro.setDisponivel(disponivel);
                             vagasOcupadas.add(vagaCadastro);
                             capacidade = capacidade - 1;
-                            veiculos.add(vCadastro);                            
+                            veiculos.add(vCadastro);
+                            clientes.add(clienteCadastro);
                         }
                         else
                             ec.getView().falhaCadastro();
@@ -130,7 +148,8 @@ public class Estacionamento_APS {
                     
                     for(VeiculoController veiculo : veiculos){
                         veiculo.getView().printVeiculo(veiculo.getPlaca(), veiculo.getModelo(), veiculo.getCor());
-                        mc.getView().printHorarioEntrada(veiculo.getMovimentacao().getDataEntrada());
+                        mc.getView().horarioEntrada();
+                         System.out.println(formata.format(veiculo.getMovimentacao().getDataEntrada()));
                         System.out.println();
                     }
                     
@@ -144,17 +163,27 @@ public class Estacionamento_APS {
                     
                 case 3:
                     // SAÍDA DE VEÍCULOS
+                    // TODO: usar o atribuiLog para adicionar o carro na lista do log
                     try {                        
                         
                         ec.getView().saidaVeiculo();
                         String plVeiculoSaida = tc.next();
                         VeiculoController veiculoSaida = new VeiculoController();
+                        PagamentoController pagamentoSaidaVeiculo = new PagamentoController();
+                        ClienteController clienteSaida = new ClienteController();
+                        VagaController vaga = new VagaController();
+                        
+                        // VARIÁVEL PARA ARMAZENAR A DATA DE ENTRADA DO VEÍCULO QUE ESTÁ SAINDO.
+                        // NÃO ENCONTREI OUTRA FORMA DE FAZER ISTO.
+                        Date dataEntrada = null;
                                                 
                         Boolean controleSaidaCarro = false;
                         
-                        for(VeiculoController veiculosSaida : veiculos){
-                            if(plVeiculoSaida.equals(veiculosSaida.getPlaca())){
-                                controleSaidaCarro = true;
+                        for(ClienteController cliente : clientes){
+                            if(plVeiculoSaida.equals(cliente.getVeiculo().getPlaca())){
+                                 controleSaidaCarro = true;
+                                 dataEntrada = cliente.getVeiculo().getMovimentacao().getDataEntrada();
+                                 clienteSaida.setModel(cliente.getModel()); 
                                 System.out.println("Veículo encontrado!");
                                 System.out.println();                                
                             }
@@ -163,26 +192,45 @@ public class Estacionamento_APS {
                         }
                         
                         if (controleSaidaCarro = true) {                            
-                            
-                            PagamentoController pagamentoSaidaVeiculo = new PagamentoController();
-                            Date saida = new Date();
-                            formata.format(saida);
-                            System.out.println("Horário de saída do veículo: " + saida);                            
-                            veiculoSaida.getMovimentacao().setDataSaida(saida);
-                            atribuiLog.executaLog(veiculoSaida);
                                                         
-                            PagamentoController.getDateDiff(veiculoSaida.getMovimentacao().getDataEntrada(), veiculoSaida.getMovimentacao().getDataSaida(),TimeUnit.MILLISECONDS);
+                            Date saida = new Date();
+                            formata.format(saida);  
+                            // Setando a hora de saída do cliente
+                            clienteSaida.getVeiculo().getMovimentacao().setDataSaida(saida);
+                            pagamentoSaidaVeiculo.setData(saida);
                             
+                            System.out.println(formata.format(clienteSaida.getVeiculo().getMovimentacao().getDataSaida()));
                             
-                         
-                      
+                            pagamentoSaidaVeiculo.setCliente(clienteSaida.getModel());
+                            
+                            //TRANSFORMAR OS MILISEGUNDOS EM SEGUNDOS
+                            double diffSeconds = (pagamentoSaidaVeiculo.getDateDiff(dataEntrada,clienteSaida.getVeiculo().getMovimentacao().getDataSaida(), TimeUnit.SECONDS)/1000);                            
+                                                        
+                            // Altera o valor do pagamento e Cálculo de Pagamento.
+                            pagamentoSaidaVeiculo.setValor(pagamentoSaidaVeiculo.calculaValorPagamento(diffSeconds));
+                            
+                            pagamentoSaidaVeiculo.getView().printPagamento(pagamentoSaidaVeiculo.getCliente(), pagamentoSaidaVeiculo.getValor(), pagamentoSaidaVeiculo.getCliente().getVeiculo().getMovimentacao().getDataEntrada());
+                            
+                            ec.addPagamento(pagamentoSaidaVeiculo.getModel());
+                            
+                            veiculoSaida.setModel(pagamentoSaidaVeiculo.getCliente().getVeiculo()); 
+                            vaga.setVeiculo(pagamentoSaidaVeiculo.getCliente().getVeiculo());
+                            
+                            for(VeiculoController veiculo : veiculos){
+                                if(veiculo.getPlaca() == veiculoSaida.getPlaca()){
+                                   veiculos.remove(veiculo);              
+                                }
+                            }
+                            
+                           // veiculos.remove(veiculos.indexOf(veiculoSaida));
+                            System.out.println(veiculos);
                         }
                         
                     } 
                     catch (Exception e) {
                         
                     }
-                    
+                    break;
                 case 4:
                     
                     
