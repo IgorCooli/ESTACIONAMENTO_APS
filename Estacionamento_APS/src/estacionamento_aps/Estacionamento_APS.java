@@ -5,6 +5,7 @@
  */
 package estacionamento_aps;
 
+import controller.AtribuiLog;
 import controller.ClienteController;
 import controller.EstacionamentoController;
 import controller.MovimentacaoController;
@@ -12,11 +13,11 @@ import controller.PagamentoController;
 import controller.VagaController;
 import controller.VeiculoController;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import model.LogSingleton;
 
 /**
  *
@@ -28,6 +29,8 @@ public class Estacionamento_APS {
     
                 
         Scanner tc = new Scanner(System.in);
+        
+        AtribuiLog atribuiLog = new AtribuiLog();             
         
         ClienteController cc = new ClienteController();
         VeiculoController vc = new VeiculoController();
@@ -166,6 +169,7 @@ public class Estacionamento_APS {
                             formata.format(saida);
                             System.out.println("Horário de saída do veículo: " + saida);                            
                             veiculoSaida.getMovimentacao().setDataSaida(saida);
+                            atribuiLog.executaLog(veiculoSaida);
                                                         
                             PagamentoController.getDateDiff(veiculoSaida.getMovimentacao().getDataEntrada(), veiculoSaida.getMovimentacao().getDataSaida(),TimeUnit.MILLISECONDS);
                             
@@ -184,6 +188,11 @@ public class Estacionamento_APS {
                     
                 case 5:
                     appOn = false;
+                    break;
+                case 6:
+                    LogSingleton log = LogSingleton.getInstance();
+        
+                    System.out.println(log.getListaVeiculoController()); 
                     break;
             }
             
