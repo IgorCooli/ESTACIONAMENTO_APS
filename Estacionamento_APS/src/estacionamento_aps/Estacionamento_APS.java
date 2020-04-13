@@ -5,6 +5,7 @@
  */
 package estacionamento_aps;
 
+import controller.AtribuiLog;
 import controller.ClienteController;
 import controller.EstacionamentoController;
 import controller.MovimentacaoController;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import model.LogSingleton;
 
 /**
  *
@@ -27,6 +29,8 @@ public class Estacionamento_APS {
     
                 
         Scanner tc = new Scanner(System.in);
+        
+        AtribuiLog atribuiLog = new AtribuiLog();             
         
         ClienteController cc = new ClienteController();
         VeiculoController vc = new VeiculoController();
@@ -163,6 +167,7 @@ public class Estacionamento_APS {
                     
                 case 3:
                     // SAÍDA DE VEÍCULOS
+                    // TODO: usar o atribuiLog para adicionar o carro na lista do log
                     try {                        
                         
                         ec.getView().saidaVeiculo();
@@ -213,15 +218,20 @@ public class Estacionamento_APS {
                             ec.addPagamento(pagamentoSaidaVeiculo.getModel());
                             
                             veiculoSaida.setModel(pagamentoSaidaVeiculo.getCliente().getVeiculo()); 
+                            vaga.setVeiculo(pagamentoSaidaVeiculo.getCliente().getVeiculo());
                             
                             
                             for(VeiculoController veiculo : veiculos){
                                 if(veiculo.getPlaca() == veiculoSaida.getPlaca()){
+
                                    veiculos.remove(veiculo);
                                    vaga.setVeiculo(veiculo.getModel());
                                    vagasOcupadas.remove(vaga);
                                     System.out.println(vagasOcupadas);
                                     
+
+                                   veiculos.remove(veiculo);              
+
                                 }
                             }
                             
@@ -239,6 +249,11 @@ public class Estacionamento_APS {
                     
                 case 5:
                     appOn = false;
+                    break;
+                case 6:
+                    LogSingleton log = LogSingleton.getInstance();
+        
+                    System.out.println(log.getListaVeiculoController()); 
                     break;
             }
             
