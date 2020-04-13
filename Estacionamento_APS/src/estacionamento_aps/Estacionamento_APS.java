@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -165,8 +166,8 @@ public class Estacionamento_APS {
                             formata.format(saida);
                             System.out.println("Horário de saída do veículo: " + saida);                            
                             veiculoSaida.getMovimentacao().setDataSaida(saida);
-                            
-                           // pagamentoSaidaVeiculo.getDateDiff(veiculoSaida.getMovimentacao().getDataEntrada(), veiculoSaida.getMovimentacao().setDataSaida(saida));
+                                                        
+                            PagamentoController.getDateDiff(veiculoSaida.getMovimentacao().getDataEntrada(), veiculoSaida.getMovimentacao().getDataSaida(),TimeUnit.MILLISECONDS);
                             
                             
                          
