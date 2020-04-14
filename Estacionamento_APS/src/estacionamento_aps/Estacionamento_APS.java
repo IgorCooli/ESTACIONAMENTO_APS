@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import model.LogSingleton;
+import model.Vaga;
 
 /**
  *
@@ -38,17 +39,22 @@ public class Estacionamento_APS {
         EstacionamentoController ec = new EstacionamentoController();
         
         ArrayList<VeiculoController> veiculos = new ArrayList<>();
-        ArrayList<VagaController> vagasOcupadas = new ArrayList<>();
         ArrayList<PagamentoController> pagamentos = new ArrayList<>();
         ArrayList<ClienteController> clientes = new ArrayList<>();
         
+        // Capacidade máxima do estacionamento é 500.
+        int capacidade = 20;
+        
+        
+        for(int i = 0; i < capacidade; i++){
+            VagaController vaga = new VagaController();
+            vaga.setNumero(i + 1);
+            vaga.setDisponivel(true);            
+            ec.addVaga(vaga.getModel());
+        }
+        
         // Classe que executa a formatação:
         SimpleDateFormat formata = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        
-        
-        
-        // Capacidade máxima do estacionamento é 500.
-        int capacidade = 500;
         
         
         boolean appOn = true;
@@ -70,7 +76,13 @@ public class Estacionamento_APS {
                         ClienteController clienteCadastro = new ClienteController();
                         VeiculoController vCadastro = new VeiculoController();
                         VagaController vagaCadastro = new VagaController();
-                    
+                        
+                        for(Vaga vaga : ec.getVagas()){
+                            VagaController vagaCont = new VagaController();
+                            vagaCont.setModel(vaga);
+                            vagaCont.getView().printVaga(vaga.getNumero(), vaga.isDisponivel());
+                        }
+                        
                         vc.getView().cadastrarVeiculo();
                         vc.getView().inputPlaca();
                         vCadastro.setPlaca(tc.next());
@@ -115,27 +127,31 @@ public class Estacionamento_APS {
                         
                         // Método para verificar se a vaga já está ocupada.
                         // Percorre a lista de vagas ocupadas para ver se já tem um número de vaga de acordo com o informado.
-                        for(VagaController vagas : vagasOcupadas){
-                            if(numeroVaga == vagas.getNumero() && vagas.getDisponivel() == false){
-                                System.out.println("A vaga de número:" + numeroVaga +" encontra-se ocupada. Esolha outra vaga!");
+                        
+                        
+                        for(Vaga vaga : ec.getVagas()){
+                            if(numeroVaga == vaga.getNumero() && vaga.isDisponivel() == false){
+                                System.out.println("A vaga de número:" + numeroVaga +" encontra-se ocupada. Escolha outra vaga!");
                             }
                             else
                              controleDisponibilidade = true;
-                        }
+                             vagaCadastro.setModel(vaga);
+                         }                       
                         
                         // Caso a vaga não esteja ocupada é feito o cadastro.
-                        if(controleDisponibilidade = true){
+                        if(controleDisponibilidade == true){
                             Boolean disponivel = false;
                             
+                            
+                            // CONTINUAR AMANHÃ DAQUI.
                             vagaCadastro.setVeiculo(vCadastro.getModel());
-                            vagaCadastro.setNumero(numeroVaga);                            
+                            
                             vagaCadastro.setDisponivel(disponivel);
-                            vagasOcupadas.add(vagaCadastro);
+                            
                                                         
                             veiculos.add(vCadastro);
-                            clientes.add(clienteCadastro);
+                            clientes.add(clienteCadastro);    
                             
-                            capacidade = capacidade - 1;
                         }
                         else
                             ec.getView().falhaCadastro();
@@ -156,13 +172,13 @@ public class Estacionamento_APS {
                          System.out.println(formata.format(veiculo.getMovimentacao().getDataEntrada()));
                         System.out.println();
                     }
-                    
+                    /*
                     for(VagaController vaga : vagasOcupadas){
                         vaga.getView().printVaga(vaga.getNumero(), false);                        
                     }
                     System.out.println();
                     System.out.println("VAGAS DISPONÍVEIS:" + capacidade);
-                    System.out.println();                    
+                    System.out.println();   */                  
                     break;
                     
                 case 3:
@@ -195,7 +211,7 @@ public class Estacionamento_APS {
                               System.out.println("A placa informada não foi encotrada nos veículos registrados.");  
                         }
                         
-                        if (controleSaidaCarro = true) {                            
+                        if (controleSaidaCarro == true) {                            
                                                         
                             Date saida = new Date();
                             formata.format(saida);  
@@ -218,19 +234,13 @@ public class Estacionamento_APS {
                             ec.addPagamento(pagamentoSaidaVeiculo.getModel());
                             
                             veiculoSaida.setModel(pagamentoSaidaVeiculo.getCliente().getVeiculo()); 
-                            vaga.setVeiculo(pagamentoSaidaVeiculo.getCliente().getVeiculo());
                             
+                            System.out.println("Informe qual o número da vaga em que o veículo estava estacionado: ");
                             
                             for(VeiculoController veiculo : veiculos){
                                 if(veiculo.getPlaca() == veiculoSaida.getPlaca()){
 
-                                   veiculos.remove(veiculo);
-                                   vaga.setVeiculo(veiculo.getModel());
-                                   vagasOcupadas.remove(vaga);
-                                    System.out.println(vagasOcupadas);
-                                    
-
-                                   veiculos.remove(veiculo);              
+                                   veiculos.remove(veiculo); 
 
                                 }
                             }
@@ -245,8 +255,7 @@ public class Estacionamento_APS {
                     }
                     break;
                 case 4:
-                    
-                    
+                    System.out.println(ec.fechamentoCaixa());                    
                 case 5:
                     appOn = false;
                     break;
