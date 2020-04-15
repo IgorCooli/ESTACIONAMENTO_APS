@@ -35,19 +35,21 @@ public class EstacionamentoView {
         System.out.println("Fechamento de caixa: ");
         System.out.println("Pagamentos: ");
         for(Pagamento p : pagamentos){
-            System.out.println("Hora: " + p.getDataPagamento().getHours() + " - Valor: R$" + p.getValor());
+            System.out.println("Hora: " + p.getDataPagamento().getHours() 
+                                        + ":" + p.getDataPagamento().getMinutes()                                        
+                                        + " - Valor: R$" + p.getValor());
         }
         System.out.println("Valor total do dia: R$" + fechamentoCaixa);
     }
     
     public void printMenuEstacionamento(){
          System.out.println("MENU ESTACIONAMENTO: ");
-         System.out.println("1) Entrada de veículo"); // FEITO
-         System.out.println("2) Listar Veiculos");    // FEITO   
+         System.out.println("1) Entrada de veículo"); 
+         System.out.println("2) Listar Veiculos");      
          System.out.println("3) Saída de veículo");
          System.out.println("4) Fechamento de caixa");
-         System.out.println("5) Sair");
-         System.out.println("6) Histórico(LOG)");
+         System.out.println("5) Histórico(LOG)");
+         System.out.println("6) Sair");
          System.out.println();
          
          System.out.println("Opção Escolhida: ");

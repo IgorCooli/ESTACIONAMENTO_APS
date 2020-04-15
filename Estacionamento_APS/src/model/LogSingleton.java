@@ -40,7 +40,11 @@ public class LogSingleton {
         String veiculosEstacionados = "###### REGISTRO DE CARROS ######\n\n";
         
         for(int i = 0; i <= listaVeiculoController.size() - 1; i++) {
-            veiculosEstacionados = veiculosEstacionados + "PLACA: " + listaVeiculoController.get(i).getPlaca() + "\nCOR: " + listaVeiculoController.get(i).getCor() + "\nMODELO: " + listaVeiculoController.get(i).getModelo() + "\nHORA DE ENTRADA: " + listaVeiculoController.get(i).getMovimentacao().getDataEntrada() + "\nHORA DE SAÍDA: " + listaVeiculoController.get(i).getMovimentacao().getDataSaida() + "\n\n";
+            veiculosEstacionados = veiculosEstacionados + "PLACA: " + listaVeiculoController.get(i).getPlaca() 
+                                                        + "\nCOR: " + listaVeiculoController.get(i).getCor() 
+                                                        + "\nMODELO: " + listaVeiculoController.get(i).getModelo() 
+                                                        + "\nHORA DE ENTRADA: " + listaVeiculoController.get(i).getMovimentacao().getDataEntrada() 
+                                                        + "\nHORA DE SAÍDA: " + listaVeiculoController.get(i).getMovimentacao().getDataSaida() + "\n\n";
         }
         return veiculosEstacionados;
     }

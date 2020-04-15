@@ -38,7 +38,6 @@ public class Estacionamento_APS {
         MovimentacaoController mc = new MovimentacaoController();
         EstacionamentoController ec = new EstacionamentoController();
         
-        ArrayList<VeiculoController> veiculos = new ArrayList<>();
         ArrayList<PagamentoController> pagamentos = new ArrayList<>();
         ArrayList<ClienteController> clientes = new ArrayList<>();
         
@@ -146,10 +145,9 @@ public class Estacionamento_APS {
                             
                             // CONTINUAR AMANHÃ DAQUI.
                             vagaCadastro.setVeiculo(vCadastro.getModel());                            
-                            vagaCadastro.setDisponivel(disponivel);
-                                                                                    
-                            veiculos.add(vCadastro);
+                            vagaCadastro.setDisponivel(disponivel);                                                                                    
                             clientes.add(clienteCadastro);
+                            atribuiLog.executaLog(vCadastro);
                            
                         }
                         else
@@ -215,9 +213,7 @@ public class Estacionamento_APS {
                                  clienteSaida.setModel(cliente.getModel()); 
                                 System.out.println("Veículo encontrado!");
                                 System.out.println();                                
-                            }
-                            else
-                              System.out.println("A placa informada não foi encotrada nos veículos registrados.");  
+                            }                            
                         }
                         
                         if (controleSaidaCarro == true) {                            
@@ -242,18 +238,26 @@ public class Estacionamento_APS {
                             
                             ec.addPagamento(pagamentoSaidaVeiculo.getModel());
                             
-                            veiculoSaida.setModel(pagamentoSaidaVeiculo.getCliente().getVeiculo());                             
+                            veiculoSaida.setModel(pagamentoSaidaVeiculo.getCliente().getVeiculo());
                             
-                            for(VeiculoController veiculo : veiculos){
-                                if(veiculo.getPlaca() == veiculoSaida.getPlaca()){
-
-                                   veiculos.remove(veiculo); 
-
+                            for(Vaga v : ec.getVagas()){
+                                VagaController vagaSaida = new VagaController();
+                                vagaSaida.setModel(v);
+                                
+                                 if(vagaSaida.getVeiculo().getPlaca().equals(veiculoSaida.getPlaca())){
+                                    vagaSaida.setDisponivel(true);
+                                    vagaSaida.setVeiculo(null);
+                                }
+                                
+                            }                            
+                            for(ClienteController cliente : clientes){
+                                if(cliente.getVeiculo().getPlaca().equals(veiculoSaida.getPlaca())){
+                                   clientes.remove(cliente); 
                                 }
                             }
                             
                            // veiculos.remove(veiculos.indexOf(veiculoSaida));
-                            System.out.println(veiculos);
+                            System.out.println(clientes);
                         }
                         
                     } 
@@ -262,14 +266,15 @@ public class Estacionamento_APS {
                     }
                     break;
                 case 4:
-                    System.out.println(ec.fechamentoCaixa());                    
-                case 5:
-                    appOn = false;
+                    ec.getView().printFechamento(ec.getPagamentos(), ec.fechamentoCaixa());
                     break;
-                case 6:
+                case 5:
                     LogSingleton log = LogSingleton.getInstance();
         
                     System.out.println(log.getListaVeiculoController()); 
+                    break;
+                case 6:
+                    appOn = false;
                     break;
             }
             
