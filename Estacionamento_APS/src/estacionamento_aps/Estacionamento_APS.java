@@ -133,9 +133,10 @@ public class Estacionamento_APS {
                             if(numeroVaga == vaga.getNumero() && vaga.isDisponivel() == false){
                                 System.out.println("A vaga de número:" + numeroVaga +" encontra-se ocupada. Escolha outra vaga!");
                             }
-                            else
-                             controleDisponibilidade = true;
-                             vagaCadastro.setModel(vaga);
+                            else if(numeroVaga == vaga.getNumero() && vaga.isDisponivel() == true){
+                                controleDisponibilidade = true;
+                                vagaCadastro.setModel(vaga);
+                            }
                          }                       
                         
                         // Caso a vaga não esteja ocupada é feito o cadastro.
@@ -144,14 +145,12 @@ public class Estacionamento_APS {
                             
                             
                             // CONTINUAR AMANHÃ DAQUI.
-                            vagaCadastro.setVeiculo(vCadastro.getModel());
-                            
+                            vagaCadastro.setVeiculo(vCadastro.getModel());                            
                             vagaCadastro.setDisponivel(disponivel);
-                            
-                                                        
+                                                                                    
                             veiculos.add(vCadastro);
-                            clientes.add(clienteCadastro);    
-                            
+                            clientes.add(clienteCadastro);
+                           
                         }
                         else
                             ec.getView().falhaCadastro();
@@ -166,11 +165,21 @@ public class Estacionamento_APS {
                     // LISTAR VEICULOS ESTACIONADOS
                     vc.getView().listarVeiculos();
                     
-                    for(VeiculoController veiculo : veiculos){
-                        veiculo.getView().printVeiculo(veiculo.getPlaca(), veiculo.getModelo(), veiculo.getCor());
-                        mc.getView().horarioEntrada();
-                         System.out.println(formata.format(veiculo.getMovimentacao().getDataEntrada()));
-                        System.out.println();
+                    for(Vaga vagas : ec.getVagas()){
+                        
+                        VagaController vaga = new VagaController();
+                        VeiculoController veiculo = new VeiculoController();
+                        
+                        vaga.setModel(vagas);
+                        if(!vaga.getDisponivel())  {
+                            vaga.getView().printVaga(vaga.getNumero(), vaga.getDisponivel());
+                            veiculo.setModel(vaga.getVeiculo());
+                            veiculo.getView().printVeiculo(veiculo.getPlaca(), veiculo.getModelo(), veiculo.getCor());
+                            System.out.println(formata.format(veiculo.getMovimentacao().getDataEntrada()));
+                            System.out.println();     
+                        }            
+                        
+                        
                     }
                     /*
                     for(VagaController vaga : vagasOcupadas){
@@ -233,9 +242,7 @@ public class Estacionamento_APS {
                             
                             ec.addPagamento(pagamentoSaidaVeiculo.getModel());
                             
-                            veiculoSaida.setModel(pagamentoSaidaVeiculo.getCliente().getVeiculo()); 
-                            
-                            System.out.println("Informe qual o número da vaga em que o veículo estava estacionado: ");
+                            veiculoSaida.setModel(pagamentoSaidaVeiculo.getCliente().getVeiculo());                             
                             
                             for(VeiculoController veiculo : veiculos){
                                 if(veiculo.getPlaca() == veiculoSaida.getPlaca()){
