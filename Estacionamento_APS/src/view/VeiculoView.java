@@ -17,6 +17,8 @@ public class VeiculoView {
 	      System.out.println("Cor: " + cor);
     }
     
+    
+    
     public void cadastrarVeiculo(){
         System.out.println("Cadastrar veículo: ");
     }

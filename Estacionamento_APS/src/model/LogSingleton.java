@@ -5,7 +5,7 @@
  */
 package model;
 
-import controller.VeiculoController;
+import controller.ClienteController;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
 public class LogSingleton {
     private static LogSingleton instance;
     public String placa;
-    public List<VeiculoController> listaVeiculoController = new ArrayList<>();
+    public List<ClienteController> listaClienteController = new ArrayList<>();
     
     protected LogSingleton() {
     }
@@ -32,19 +32,19 @@ public class LogSingleton {
         return instance;
     }
     
-    public void setListaVeiculoController(VeiculoController v) {
-        listaVeiculoController.add(v);
+    public void setListaClienteController(ClienteController c) {
+        listaClienteController.add(c);
     }
     
-    public String getListaVeiculoController() {
+    public String getListaClienteController() {
         String veiculosEstacionados = "###### REGISTRO DE CARROS ######\n\n";
         
-        for(int i = 0; i <= listaVeiculoController.size() - 1; i++) {
-            veiculosEstacionados = veiculosEstacionados + "PLACA: " + listaVeiculoController.get(i).getPlaca() 
-                                                        + "\nCOR: " + listaVeiculoController.get(i).getCor() 
-                                                        + "\nMODELO: " + listaVeiculoController.get(i).getModelo() 
-                                                        + "\nHORA DE ENTRADA: " + listaVeiculoController.get(i).getMovimentacao().getDataEntrada() 
-                                                        + "\nHORA DE SAÍDA: " + listaVeiculoController.get(i).getMovimentacao().getDataSaida() + "\n\n";
+        for(int i = 0; i <= listaClienteController.size() - 1; i++) {
+            veiculosEstacionados = veiculosEstacionados + "PLACA: " + listaClienteController.get(i).getVeiculo().getPlaca() 
+                                                        + "\nCOR: " + listaClienteController.get(i).getVeiculo().getCor() 
+                                                        + "\nMODELO: " + listaClienteController.get(i).getVeiculo().getModelo() 
+                                                        + "\nHORA DE ENTRADA: " + listaClienteController.get(i).getVeiculo().getMovimentacao().getDataEntrada() 
+                                                        + "\nHORA DE SAÍDA: " + listaClienteController.get(i).getVeiculo().getMovimentacao().getDataSaida() + "\n\n";
         }
         return veiculosEstacionados;
     }

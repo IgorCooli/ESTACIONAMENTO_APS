@@ -6,18 +6,22 @@
 package estacionamento_aps;
 
 import controller.AtribuiLog;
+import controller.CarroController;
 import controller.ClienteController;
 import controller.EstacionamentoController;
+import controller.MotoController;
 import controller.MovimentacaoController;
 import controller.PagamentoController;
 import controller.VagaController;
-import controller.VeiculoController;
+import controller.VeiculoFactory;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import model.Carro;
 import model.LogSingleton;
+import model.Moto;
 import model.Vaga;
 
 /**
@@ -34,9 +38,9 @@ public class Estacionamento_APS {
         AtribuiLog atribuiLog = new AtribuiLog();             
         
         ClienteController cc = new ClienteController();
-        VeiculoController vc = new VeiculoController();
         MovimentacaoController mc = new MovimentacaoController();
         EstacionamentoController ec = new EstacionamentoController();
+        VeiculoFactory vf = new VeiculoFactory();
         
         ArrayList<PagamentoController> pagamentos = new ArrayList<>();
         ArrayList<ClienteController> clientes = new ArrayList<>();
@@ -73,14 +77,27 @@ public class Estacionamento_APS {
                    // ENTRADA DE VEÍCULOS
                    try{
                         ClienteController clienteCadastro = new ClienteController();
-                        VeiculoController vCadastro = new VeiculoController();
                         VagaController vagaCadastro = new VagaController();
+                        
                         
                         for(Vaga vaga : ec.getVagas()){
                             VagaController vagaCont = new VagaController();
                             vagaCont.setModel(vaga);
                             vagaCont.getView().printVaga(vaga.getNumero(), vaga.isDisponivel());
                         }
+                        
+                        clienteCadastro.getView().inputTipoVeiculo();
+                        int tipo = tc.nextInt();
+                        if(tipo == 1){
+                            CarroController vc = new CarroController();
+                            vc.setModel((Carro) vf.VeiculoFactory(tipo));
+                        }
+                        else if(tipo == 2){
+                            MotoController vc = new MotoController();
+                            vc.setModel((Moto) vf.VeiculoFactory(tipo));
+                        }
+                        
+                        
                         
                         vc.getView().cadastrarVeiculo();
                         vc.getView().inputPlaca();

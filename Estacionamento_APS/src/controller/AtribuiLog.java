@@ -12,10 +12,10 @@ import model.LogSingleton;
  * @author Raphaelli Bellini
  */
 public class AtribuiLog {
-    public void executaLog(VeiculoController v){
+    public void executaLog(ClienteController c){
      
         LogSingleton armazenaLog = LogSingleton.getInstance();
         
-        armazenaLog.setListaVeiculoController(v);
+        armazenaLog.setListaClienteController(c);
     }
 }

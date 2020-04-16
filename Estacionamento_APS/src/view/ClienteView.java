@@ -5,10 +5,6 @@
  */
 package view;
 
-import controller.ClienteController;
-import controller.VeiculoController;
-import java.util.Scanner;
-
 /**
  *
  * @author coliv
@@ -19,6 +15,12 @@ public class ClienteView {
 	      System.out.println("Nome: " + nome);
 	      System.out.println("Endereco: " + endereco);
 	      System.out.println("Telefone: " + telefone);
+    }
+    
+    public void inputTipoVeiculo(){
+        System.out.println("Qual tipo do veículo?");
+        System.out.println("Digite 1 para Carro:");
+        System.out.println("Digite 2 para Moto:");
     }
     
     public void cadastrarCliente(){
