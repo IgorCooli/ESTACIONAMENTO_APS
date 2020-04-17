@@ -15,21 +15,7 @@ import model.Vaga;
  */
 public class EstacionamentoView {
 
-    public void printEstacionamento(String nome, String endereco, ArrayList<Vaga> vagas) {
-        System.out.println("Estacionamento " + nome);
-        System.out.println("Vagas: ");
-        for(Vaga v : vagas){
-            if(v.isDisponivel()){
-                System.out.println("Vaga: " + v.getNumero() 
-                        + " - Disponível"
-                );
-            }else{
-                System.out.println("Vaga: " + v.getNumero() 
-                        + " - Indisponível"
-                );
-            }
-        }
-    }
+    
 
     public void printFechamento(ArrayList<Pagamento> pagamentos, double fechamentoCaixa) {
         System.out.println("Fechamento de caixa: ");

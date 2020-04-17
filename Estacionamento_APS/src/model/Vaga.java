@@ -9,21 +9,33 @@ package model;
  *
  * @author coliv
  */
-public class Vaga {
+public abstract class Vaga {
     
     private int numero;
     private boolean disponivel;
     private Veiculo veiculo;
+    private int tipo;
 
     public Vaga() {
         this.disponivel = true;
     }
 
-    public Vaga(int numero, boolean disponivel, Veiculo veiculo) {
+    public Vaga(int numero, boolean disponivel, Veiculo veiculo, int tipo) {
         this.numero = numero;
         this.disponivel = disponivel;
         this.veiculo = veiculo;
+        this.tipo = tipo;
     }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+    
+    
 
     public int getNumero() {
         return numero;

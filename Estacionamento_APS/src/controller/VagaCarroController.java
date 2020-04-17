@@ -6,6 +6,7 @@
 package controller;
 
 import model.Vaga;
+import model.VagaCarro;
 import model.Veiculo;
 import view.VagaView;
 
@@ -13,17 +14,17 @@ import view.VagaView;
  *
  * @author coliv
  */
-public class VagaController {
+public class VagaCarroController {
     
-    private Vaga model = new Vaga();
+    private VagaCarro model = new VagaCarro();
     private VagaView view = new VagaView();
 
-    public VagaController(Vaga model, VagaView view) {
+    public VagaCarroController(VagaCarro model, VagaView view) {
         this.model = model;
         this.view = view;
     }
 
-    public VagaController() {
+    public VagaCarroController() {
     }
     
     public void setNumero(int numero){
@@ -42,6 +43,14 @@ public class VagaController {
         return model.isDisponivel();
     }
     
+    public void setTipo(int tipo){
+        model.setTipo(tipo);
+    }
+    
+    public int getTipo(){
+        return model.getTipo();
+    }
+    
     public void setVeiculo(Veiculo v){
         model.setVeiculo(v);
     }
@@ -50,11 +59,11 @@ public class VagaController {
         return model.getVeiculo();
     }
     
-    public Vaga getModel(){
+    public VagaCarro getModel(){
         return model;
     }
     
-    public void setModel(Vaga vaga){
+    public void setModel(VagaCarro vaga){
         this.model = vaga;
     }
     
@@ -67,7 +76,7 @@ public class VagaController {
     }
     
     public void atualizaView(){
-        view.printVaga(model.getNumero(), model.isDisponivel());
+        view.printVaga(model.getNumero(), model.isDisponivel(), model.getTipo());
     }
     
 }

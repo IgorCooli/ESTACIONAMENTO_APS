@@ -8,7 +8,8 @@ package controller;
 import java.util.ArrayList;
 import model.Estacionamento;
 import model.Pagamento;
-import model.Vaga;
+import model.VagaCarro;
+import model.VagaMoto;
 import view.EstacionamentoView;
 
 /**
@@ -46,16 +47,28 @@ public class EstacionamentoController {
         return model.getEndereco();
     }
     
-    public void addVaga(Vaga vaga){
-        model.getVagas().add(vaga);
+    public void addVagaCarro(VagaCarro vagaCarro){
+        model.getVagasCarro().add(vagaCarro);
     }
     
-    public ArrayList<Vaga> getVagas(){
-        return model.getVagas();
+    public ArrayList<VagaCarro> getVagasCarro(){
+        return model.getVagasCarro();
     }
     
-    public void removeVaga(int i){
-        model.getVagas().remove(i);
+    public void removeVagaCarro(int i){
+        model.getVagasCarro().remove(i);
+    }
+    
+    public void addVagaMoto(VagaMoto vagaMoto){
+        model.getVagasMoto().add(vagaMoto);
+    }
+    
+    public ArrayList<VagaMoto> getVagasMoto(){
+        return model.getVagasMoto();
+    }
+    
+    public void removeVagaMoto(int i){
+        model.getVagasMoto().remove(i);
     }
     
     public void addPagamento(Pagamento pag){
@@ -86,9 +99,6 @@ public class EstacionamentoController {
         return this.view;
     }
     
-    public void atualizaView(){
-        view.printEstacionamento(model.getNome(), model.getEndereco(), model.getVagas());
-    }
     
     public double fechamentoCaixa(){
         double val = 0;

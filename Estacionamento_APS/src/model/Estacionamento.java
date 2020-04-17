@@ -14,7 +14,8 @@ import java.util.ArrayList;
 public class Estacionamento {
     private String nome;
     private String endereco;
-    private ArrayList<Vaga> vagas = new ArrayList<>();
+    private ArrayList<VagaMoto> vagasMoto = new ArrayList<>();
+    private ArrayList<VagaCarro> vagasCarro = new ArrayList<>();
     private ArrayList<Pagamento> pagamentos = new ArrayList<>();
 
     public Estacionamento() {
@@ -41,12 +42,20 @@ public class Estacionamento {
         this.endereco = endereco;
     }
 
-    public ArrayList<Vaga> getVagas() {
-        return vagas;
+    public ArrayList<VagaCarro> getVagasCarro() {
+        return vagasCarro;
     }
 
-    public void setVagas(ArrayList<Vaga> vagas) {
-        this.vagas = vagas;
+    public void setVagasCarro(ArrayList<VagaCarro> vagasCarro) {
+        this.vagasCarro = vagasCarro;
+    }
+    
+    public ArrayList<VagaMoto> getVagasMoto() {
+        return vagasMoto;
+    }
+
+    public void setVagasMoto(ArrayList<VagaMoto> vagasMoto) {
+        this.vagasMoto = vagasMoto;
     }
 
     public ArrayList<Pagamento> getPagamentos() {

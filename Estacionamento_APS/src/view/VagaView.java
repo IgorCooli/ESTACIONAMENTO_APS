@@ -11,11 +11,23 @@ package view;
  */
 public class VagaView {
 
-    public void printVaga(int numero, boolean disponivel) {
+    public void printVaga(int numero, boolean disponivel, int tipo) {
         if(disponivel == true){
-            System.out.println("Vaga nº " + numero + " - DISPONÍVEL");
+            if(tipo == 1){
+                System.out.println("Vaga de Carro nº " + numero + " - DISPONÍVEL");
+            }
+            else if(tipo == 2){
+                System.out.println("Vaga de Moto nº " + numero + " - DISPONÍVEL");
+            }
+            
         }else{
-            System.out.println("Vaga nº " + numero + " - INDISPONÍVEL");
+            if (tipo == 1){
+                System.out.println("Vaga de Carro nº " + numero + " - INDISPONÍVEL");
+            }
+            else if(tipo == 2){
+                System.out.println("Vaga de Moto nº " + numero + " - INDISPONÍVEL");
+            }
+            
         }
     }
     

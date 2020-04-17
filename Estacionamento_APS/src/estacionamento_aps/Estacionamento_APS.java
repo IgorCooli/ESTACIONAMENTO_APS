@@ -10,7 +10,10 @@ import controller.ClienteController;
 import controller.EstacionamentoController;
 import controller.MovimentacaoController;
 import controller.PagamentoController;
-import controller.VagaController;
+import controller.VagaCarroController;
+import controller.VagaCarroFactory;
+import controller.VagaMotoController;
+import controller.VagaMotoFactory;
 import controller.VeiculoController;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +22,8 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import model.LogSingleton;
 import model.Vaga;
+import model.VagaCarro;
+import model.VagaMoto;
 
 /**
  *
@@ -32,7 +37,8 @@ public class Estacionamento_APS {
         Scanner tc = new Scanner(System.in);
         
         AtribuiLog atribuiLog = new AtribuiLog();             
-        
+        VagaCarroFactory vagaCarroFactory = new VagaCarroFactory();
+        VagaMotoFactory vagaMotoFactory = new VagaMotoFactory();
         ClienteController cc = new ClienteController();
         VeiculoController vc = new VeiculoController();
         MovimentacaoController mc = new MovimentacaoController();
@@ -42,14 +48,26 @@ public class Estacionamento_APS {
         ArrayList<ClienteController> clientes = new ArrayList<>();
         
         // Capacidade máxima do estacionamento é 500.
-        int capacidade = 20;
+        int capacidadeCarro = 20;
+        int capacidadeMoto = 30;
         
         
-        for(int i = 0; i < capacidade; i++){
-            VagaController vaga = new VagaController();
+        for(int i = 0; i < capacidadeCarro; i++){
+            VagaCarroController vaga = new VagaCarroController();
+            vaga.setModel((VagaCarro) vagaCarroFactory.criarVaga());
             vaga.setNumero(i + 1);
-            vaga.setDisponivel(true);            
-            ec.addVaga(vaga.getModel());
+            vaga.setDisponivel(true);  
+            vaga.setTipo(1);
+            ec.addVagaCarro(vaga.getModel());
+        }
+        
+        for(int i = 0; i < capacidadeCarro; i++){
+            VagaMotoController vaga = new VagaMotoController();
+            vaga.setModel((VagaMoto) vagaMotoFactory.criarVaga());
+            vaga.setNumero(i + 1);
+            vaga.setDisponivel(true);          
+            vaga.setTipo(2);
+            ec.addVagaMoto(vaga.getModel());
         }
         
         // Classe que executa a formatação:
@@ -68,18 +86,24 @@ public class Estacionamento_APS {
             System.out.println();
             
             switch(opcaoEscolhida){
-                
+                // TODO: CRIAR METODO PARA ENTRADA DE MOTO
                 case 1:
                    // ENTRADA DE VEÍCULOS
                    try{
                         ClienteController clienteCadastro = new ClienteController();
                         VeiculoController vCadastro = new VeiculoController();
-                        VagaController vagaCadastro = new VagaController();
+                        VagaCarroController vagaCadastro = new VagaCarroController();
                         
-                        for(Vaga vaga : ec.getVagas()){
-                            VagaController vagaCont = new VagaController();
+                        for(VagaCarro vaga : ec.getVagasCarro()){
+                            VagaCarroController vagaCont = new VagaCarroController();
                             vagaCont.setModel(vaga);
-                            vagaCont.getView().printVaga(vaga.getNumero(), vaga.isDisponivel());
+                            vagaCont.getView().printVaga(vaga.getNumero(), vaga.isDisponivel(), vaga.getTipo());
+                        }
+                        
+                        for(VagaMoto vaga : ec.getVagasMoto()){
+                            VagaMotoController vagaCont = new VagaMotoController();
+                            vagaCont.setModel(vaga);
+                            vagaCont.getView().printVaga(vaga.getNumero(), vaga.isDisponivel(), vaga.getTipo());
                         }
                         
                         vc.getView().cadastrarVeiculo();
@@ -128,7 +152,7 @@ public class Estacionamento_APS {
                         // Percorre a lista de vagas ocupadas para ver se já tem um número de vaga de acordo com o informado.
                         
                         
-                        for(Vaga vaga : ec.getVagas()){
+                        for(VagaCarro vaga : ec.getVagasCarro()){
                             if(numeroVaga == vaga.getNumero() && vaga.isDisponivel() == false){
                                 System.out.println("A vaga de número:" + numeroVaga +" encontra-se ocupada. Escolha outra vaga!");
                             }
@@ -158,19 +182,19 @@ public class Estacionamento_APS {
                    }
                    
                    break;
-                   
+                // TODO: CRIAR METODO PARA VISUALISAR VAGAS DE MOTO
                 case 2:
                     // LISTAR VEICULOS ESTACIONADOS
                     vc.getView().listarVeiculos();
                     
-                    for(Vaga vagas : ec.getVagas()){
+                    for(VagaCarro vagas : ec.getVagasCarro()){
                         
-                        VagaController vaga = new VagaController();
+                        VagaCarroController vaga = new VagaCarroController();
                         VeiculoController veiculo = new VeiculoController();
                         
                         vaga.setModel(vagas);
                         if(!vaga.getDisponivel())  {
-                            vaga.getView().printVaga(vaga.getNumero(), vaga.getDisponivel());
+                            vaga.getView().printVaga(vaga.getNumero(), vaga.getDisponivel(), vaga.getTipo());
                             veiculo.setModel(vaga.getVeiculo());
                             veiculo.getView().printVeiculo(veiculo.getPlaca(), veiculo.getModelo(), veiculo.getCor());
                             System.out.println(formata.format(veiculo.getMovimentacao().getDataEntrada()));
@@ -187,7 +211,7 @@ public class Estacionamento_APS {
                     System.out.println("VAGAS DISPONÍVEIS:" + capacidade);
                     System.out.println();   */                  
                     break;
-                    
+                // TODO: CRIAR METODO PARA SAIDA DE MOTO    
                 case 3:
                     // SAÍDA DE VEÍCULOS
                     // TODO: usar o atribuiLog para adicionar o carro na lista do log
@@ -198,7 +222,7 @@ public class Estacionamento_APS {
                         VeiculoController veiculoSaida = new VeiculoController();
                         PagamentoController pagamentoSaidaVeiculo = new PagamentoController();
                         ClienteController clienteSaida = new ClienteController();
-                        VagaController vaga = new VagaController();
+                        VagaCarroController vaga = new VagaCarroController();
                         
                         // VARIÁVEL PARA ARMAZENAR A DATA DE ENTRADA DO VEÍCULO QUE ESTÁ SAINDO.
                         // NÃO ENCONTREI OUTRA FORMA DE FAZER ISTO.
@@ -240,8 +264,8 @@ public class Estacionamento_APS {
                             
                             veiculoSaida.setModel(pagamentoSaidaVeiculo.getCliente().getVeiculo());
                             
-                            for(Vaga v : ec.getVagas()){
-                                VagaController vagaSaida = new VagaController();
+                            for(VagaCarro v : ec.getVagasCarro()){
+                                VagaCarroController vagaSaida = new VagaCarroController();
                                 vagaSaida.setModel(v);
                                 
                                  if(vagaSaida.getVeiculo().getPlaca().equals(veiculoSaida.getPlaca())){
