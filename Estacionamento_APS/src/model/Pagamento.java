@@ -16,14 +16,16 @@ public class Pagamento {
     private Date dataPagamento;
     private Cliente cliente;
     private double valor;
+    private TipoPagamento tipoPagamento;
 
-    public Pagamento() {
+    public Pagamento() { 
     }
 
-    public Pagamento(Date dataPagamento, Cliente cliente, double valor) {
+    public Pagamento(Date dataPagamento, Cliente cliente, double valor, TipoPagamento tipoPagamento) {
         this.dataPagamento = dataPagamento;
         this.cliente = cliente;
         this.valor = valor;
+        this.tipoPagamento = tipoPagamento;
     }
 
     public double getValor() {
@@ -32,6 +34,14 @@ public class Pagamento {
 
     public void setValor(double valor) {
         this.valor = valor;
+    }
+
+    public TipoPagamento getTipoPagamento() {
+        return tipoPagamento;
+    }
+
+    public void setTipoPagamento(TipoPagamento tipoPagamento) {
+        this.tipoPagamento = tipoPagamento;
     }
     
     

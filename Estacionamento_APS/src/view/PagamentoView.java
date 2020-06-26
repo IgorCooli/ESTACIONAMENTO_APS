@@ -5,8 +5,10 @@
  */
 package view;
 
+import controller.PagamentoController;
 import java.util.Date;
 import model.Cliente;
+import model.Pagamento;
 
 /**
  *
@@ -14,11 +16,21 @@ import model.Cliente;
  */
 public class PagamentoView {
 
-    public void printPagamento(Cliente cliente, double valor, Date dataPagamento) {
+    public void printPagamento(Pagamento pagamento, double valor, Date dataPagamento) {
         System.out.println("EXTRATO DE PAGAMENTO: ");
-        System.out.println("Cliente: " + cliente.getNome() + " - Placa Veículo: " + cliente.getVeiculo().getPlaca());
+        System.out.println("Cliente: " + pagamento.getCliente().getNome() + " - Placa Veículo: " + pagamento.getCliente().getVeiculo().getPlaca());
         System.out.println("Hora entrada: " + dataPagamento);
-        System.out.println("Hora saida: " + cliente.getVeiculo().getMovimentacao().getDataSaida());
-        System.out.println("Valor: R$" + valor);
+        System.out.println("Hora saida: " + pagamento.getCliente().getVeiculo().getMovimentacao().getDataSaida());        
+        System.out.print("Valor: R$" + valor);
+        System.out.print(" - MEIO DE PAGAMENTO: " + pagamento.getTipoPagamento());
     }
+    
+    public void printTipoPagamento(){
+        System.out.println("Informe o tipo de pagamento:");
+        System.out.println("1 - Cartão");
+        System.out.println("2 - Dinheiro");
+    }
+    
+   
+    
 }

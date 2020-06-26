@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import model.Cliente;
 import model.Pagamento;
+import model.TipoPagamento;
 import view.PagamentoView;
 
 /**
@@ -20,6 +21,7 @@ public class PagamentoController {
     private Pagamento model = new Pagamento();
     private PagamentoView view = new PagamentoView();
     private double valorHora;
+    private TipoPagamento tipoPagamento;
 
     public PagamentoController(Pagamento model, PagamentoView view) {
         this.valorHora = 6.00;
@@ -29,6 +31,14 @@ public class PagamentoController {
 
     public PagamentoController() {
         this.valorHora = 6.00;
+    }
+
+    public TipoPagamento getTipoPagamento() {
+        return model.getTipoPagamento();
+    }
+
+    public void setTipoPagamento(TipoPagamento tipoPagamento) {
+        model.setTipoPagamento(tipoPagamento);
     }
     
     
@@ -74,16 +84,17 @@ public class PagamentoController {
         return this.view;
     }
     
-    
+    /*
     public void atualizaView(){
-        view.printPagamento(model.getCliente(), model.getValor(), model.getDataPagamento());
-    }
+        view.printPagamento(model.getModel(), model.getValor(), model.getDataPagamento());
+    }*/
     
     public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
         long diffInMili = date2.getTime() - date1.getTime();
         return timeUnit.convert(diffInMili,timeUnit);
     }    
     
+    /*
     public double calculaValorPagamento(double difSegundos){
         
         double valorCalculado = 0;
@@ -91,5 +102,7 @@ public class PagamentoController {
         valorCalculado = (difSegundos/60) * (valorHora/minutosHora);               
         return valorCalculado;      
     }
-    
+    */
+
+   
 }

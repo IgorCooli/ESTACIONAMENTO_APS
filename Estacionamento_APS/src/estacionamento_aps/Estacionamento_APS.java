@@ -7,9 +7,14 @@ package estacionamento_aps;
 
 import controller.AtribuiLog;
 import controller.ClienteController;
+import controller.Command.ProcessarPagamentoCartao;
+import controller.Command.ProcessarPagamentoDinheiro;
 import controller.EstacionamentoController;
+import controller.Memento.PagamentoMemento;
 import controller.MovimentacaoController;
 import controller.PagamentoController;
+import controller.Strategy.CalcularPagamentoCartao;
+import controller.Strategy.CalcularPagamentoDinheiro;
 import controller.VagaCarroController;
 import controller.VagaCarroFactory;
 import controller.VagaMotoController;
@@ -21,6 +26,7 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import model.LogSingleton;
+import model.TipoPagamento;
 import model.Vaga;
 import model.VagaCarro;
 import model.VagaMoto;
@@ -32,7 +38,8 @@ import model.VagaMoto;
 public class Estacionamento_APS {
 
     public static void main(String[] args) {
-    
+        
+
                 
         Scanner tc = new Scanner(System.in);
         
@@ -241,7 +248,9 @@ public class Estacionamento_APS {
                         }
                         
                         if (controleSaidaCarro == true) {                            
-                                                        
+                            
+                            int tipoPagamentoVeiculo;
+                            
                             Date saida = new Date();
                             formata.format(saida);  
                             // Setando a hora de saída do cliente
@@ -252,13 +261,39 @@ public class Estacionamento_APS {
                             
                             pagamentoSaidaVeiculo.setCliente(clienteSaida.getModel());
                             
-                            //TRANSFORMAR OS MILISEGUNDOS EM SEGUNDOS
-                            double diffSeconds = (pagamentoSaidaVeiculo.getDateDiff(dataEntrada,clienteSaida.getVeiculo().getMovimentacao().getDataSaida(), TimeUnit.SECONDS)/1000);                            
-                                                        
-                            // Altera o valor do pagamento e Cálculo de Pagamento.
-                            pagamentoSaidaVeiculo.setValor(pagamentoSaidaVeiculo.calculaValorPagamento(diffSeconds));
+                            pagamentoSaidaVeiculo.getView().printTipoPagamento();
+                            tipoPagamentoVeiculo =  tc.nextInt();
                             
-                            pagamentoSaidaVeiculo.getView().printPagamento(pagamentoSaidaVeiculo.getCliente(), pagamentoSaidaVeiculo.getValor(), pagamentoSaidaVeiculo.getCliente().getVeiculo().getMovimentacao().getDataEntrada());
+                            /* CALCULANDO A ESTADIA DO CARRO EM SEGUNDOS */
+                             //TRANSFORMAR OS MILISEGUNDOS EM SEGUNDOS
+                            double diffSeconds = (pagamentoSaidaVeiculo.getDateDiff(dataEntrada,clienteSaida.getVeiculo().getMovimentacao().getDataSaida(), TimeUnit.SECONDS)/1000); 
+                            
+                            /* VERIFICANDO O TIPO DE PAGAMENTO E JÁ FAZENDO O CÁLCULO DO VALOR A PAGAR */
+                            if(tipoPagamentoVeiculo == 1){
+                                pagamentoSaidaVeiculo.setTipoPagamento(TipoPagamento.CARTAO);
+                                CalcularPagamentoCartao pgCartao = new CalcularPagamentoCartao();
+                                pagamentoSaidaVeiculo.setValor(pgCartao.calculaValorPagamento(diffSeconds));
+                                
+                                System.out.println("Processando pagamento...");
+                                System.out.println(" ... ");
+                                System.out.println(" ... "); 
+                                
+                                ProcessarPagamentoCartao ppgCartao = new ProcessarPagamentoCartao();
+                                ppgCartao.processarPagamento(pagamentoSaidaVeiculo);
+                            }
+                            else {
+                                pagamentoSaidaVeiculo.setTipoPagamento(TipoPagamento.DINHEIRO);
+                                CalcularPagamentoDinheiro pgDinheiro = new CalcularPagamentoDinheiro();
+                                pagamentoSaidaVeiculo.setValor(pgDinheiro.calculaValorPagamento(diffSeconds));
+                                
+                                System.out.println("Processando pagamento...");
+                                System.out.println(" ... ");
+                                System.out.println(" ... "); 
+                                
+                                ProcessarPagamentoDinheiro ppgDinheiro = new ProcessarPagamentoDinheiro();
+                                ppgDinheiro.processarPagamento(pagamentoSaidaVeiculo);
+
+                            }                                         
                             
                             ec.addPagamento(pagamentoSaidaVeiculo.getModel());
                             
@@ -290,7 +325,27 @@ public class Estacionamento_APS {
                     }
                     break;
                 case 4:
-                    ec.getView().printFechamento(ec.getPagamentos(), ec.fechamentoCaixa());
+                    ec.getView().printSubMenuPagamentos();
+                    opcaoEscolhida = tc.nextInt();
+                    
+                    if(opcaoEscolhida == 1){
+                        
+                        
+                        // TODO - AJUSTAR PARA PEGAR O ULTIMO VALOR DE UMA LISTA.
+                        int ultimo = ec.getPagamentos().size();
+                        ultimo = ultimo - 1;
+                        PagamentoMemento memento = new PagamentoMemento();
+                        // RECUPERANDO O ESTADO DO ULTIMO LISTA DE PAGAMENTOS.
+                        memento.setPagamentosMemento(ec.getPagamentos());                        
+                        
+                                                
+                        System.out.println("Ultimo Pagamento:" + memento.getPagamentosMemento().get(ultimo).getValor() +
+                                           "\n" + "DATA ULTIMO PAGAMENTO:" + memento.getPagamentosMemento().get(ultimo).getDataPagamento() +
+                                           "\n" + "TIPO PAGAMENTO:" + memento.getPagamentosMemento().get(ultimo).getTipoPagamento()
+                                           );                        
+                    }
+                    else
+                        ec.getView().printFechamento(ec.getPagamentos(), ec.fechamentoCaixa());
                     break;
                 case 5:
                     LogSingleton log = LogSingleton.getInstance();

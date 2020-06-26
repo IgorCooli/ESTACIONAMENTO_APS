@@ -41,6 +41,11 @@ public class EstacionamentoView {
          System.out.println("Opção Escolhida: ");
     }
     
+    public void printSubMenuPagamentos(){
+        System.out.println("1) Ultimo Pagamento");
+        System.out.println("2) Fechamento de Caixa");
+    }
+    
     public void falhaCadastro(){
         System.out.println("Cadastro não efetuado, favor realizar o procedimento novamente.");
     }
