@@ -26,6 +26,7 @@ public class EstacionamentoView {
                                         + " - Valor: R$" + p.getValor());
         }
         System.out.println("Valor total do dia: R$" + fechamentoCaixa);
+        System.out.println();
     }
     
     public void printMenuEstacionamento(){
@@ -39,6 +40,11 @@ public class EstacionamentoView {
          System.out.println();
          
          System.out.println("Opção Escolhida: ");
+    }
+    
+    public void printSubMenuPagamentos(){
+        System.out.println("1) Ultimo Pagamento");
+        System.out.println("2) Fechamento de Caixa");
     }
     
     public void falhaCadastro(){
