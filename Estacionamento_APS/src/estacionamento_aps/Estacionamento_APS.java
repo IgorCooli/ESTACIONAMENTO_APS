@@ -304,8 +304,9 @@ public class Estacionamento_APS {
                                 vagaSaida.setModel(v);
                                 
                                  if(vagaSaida.getVeiculo().getPlaca().equals(veiculoSaida.getPlaca())){
-                                    vagaSaida.setDisponivel(true);
-                                    vagaSaida.setVeiculo(null);
+                                     vagaSaida.setDisponivel(true);
+                                     vagaSaida.setVeiculo(null);
+                                     
                                 }
                                 
                             }                            
@@ -331,18 +332,20 @@ public class Estacionamento_APS {
                     if(opcaoEscolhida == 1){
                         
                         
-                        // TODO - AJUSTAR PARA PEGAR O ULTIMO VALOR DE UMA LISTA.
                         int ultimo = ec.getPagamentos().size();
                         ultimo = ultimo - 1;
                         PagamentoMemento memento = new PagamentoMemento();
+                        
                         // RECUPERANDO O ESTADO DO ULTIMO LISTA DE PAGAMENTOS.
                         memento.setPagamentosMemento(ec.getPagamentos());                        
                         
                                                 
                         System.out.println("Ultimo Pagamento:" + memento.getPagamentosMemento().get(ultimo).getValor() +
                                            "\n" + "DATA ULTIMO PAGAMENTO:" + memento.getPagamentosMemento().get(ultimo).getDataPagamento() +
-                                           "\n" + "TIPO PAGAMENTO:" + memento.getPagamentosMemento().get(ultimo).getTipoPagamento()
-                                           );                        
+                                           "\n" + "TIPO PAGAMENTO:" + memento.getPagamentosMemento().get(ultimo).getTipoPagamento()                                           
+                                           );  
+                        System.out.println();
+                        System.out.println();    
                     }
                     else
                         ec.getView().printFechamento(ec.getPagamentos(), ec.fechamentoCaixa());

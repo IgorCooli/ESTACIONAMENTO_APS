@@ -23,6 +23,7 @@ public class PagamentoView {
         System.out.println("Hora saida: " + pagamento.getCliente().getVeiculo().getMovimentacao().getDataSaida());        
         System.out.print("Valor: R$" + valor);
         System.out.print(" - MEIO DE PAGAMENTO: " + pagamento.getTipoPagamento());
+        System.out.println("");
     }
     
     public void printTipoPagamento(){
